@@ -116,6 +116,7 @@ public class SList {
         while(currentNode != null){
             while(movingNode.next != null && movingNode.item.equals(movingNode.next.item)){
                 movingNode = movingNode.next;
+                size--;
             }
             currentNode.next = movingNode.next;
             movingNode = movingNode.next;
@@ -140,6 +141,7 @@ public class SList {
         while(currentNode != null){
             currentNode.next = new SListNode(currentNode.item, currentNode.next);
             currentNode = currentNode.next.next;
+            size++;
         }
     }
 
