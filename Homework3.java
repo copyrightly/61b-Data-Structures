@@ -19,22 +19,16 @@ public class Homework3 {
      **/
 
     public static void smoosh(int[] ints) {
-        int s = 1;  // to count the number of different elements
         int n = ints.length;
-        for(int i = 1; i < n; i++){
-            if(ints[i] != ints[i - 1]){
-                s ++;
-            }
-        }
         int i = 1, j = 1;
         while(i < n){
             if(ints[i] != ints[i - 1]){
                 ints[j] = ints[i];
-                j ++;
+                j++;
             }
-            i ++;
+            i++;
         }
-        for(int k = s; k < n; k ++){
+        for(int k = j; k < n; k++){
             ints[k] = -1;
         }
     }
