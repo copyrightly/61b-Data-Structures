@@ -244,11 +244,10 @@ public class RunLengthEncoding implements Iterable {
             sum += b[0];
             if (b[0] < 1) System.out.println("error: the run has length less than 1");
             if (a[1] == b[1] && a[2] == b[2] && a[3] == b[3]) {
-                System.out.println("error: two consecutive runs have the same RGB intensities");
+                System.out.println("error: two consecutive runs have the same RGB intensities" + a[1]);
             }
             a = b;
         }
-
         if (sum != getWidth() * getHeight()) System.out.println("error: the sum of all run lengths " +
                 "does not equal the number of pixels in the image");
     }
@@ -290,17 +289,30 @@ public class RunLengthEncoding implements Iterable {
         int right = sum + currNode.run.length - k;
 
         if (currNode.run.length == 1) {
-            if (currNode != runs.header.next && red == currNode.prev.run.red && green == currNode.prev.run.green && blue == currNode.prev.run.blue) {
-                currNode.prev.run.length++;
-                runs.remove(currNode);
-            } else if (currNode != runs.trailer.prev && red == currNode.next.run.red && green == currNode.next.run.green && blue == currNode.next.run.blue) {
-                currNode.next.run.length++;
-                runs.remove(currNode);
+            if (currNode != runs.header.next && currNode != runs.trailer.prev && currNode.prev.run.red == currNode.next.run.red && currNode.prev.run.green == currNode.next.run.green && currNode.prev.run.blue == currNode.next.run.blue) {
+                if (red == currNode.prev.run.red && green == currNode.prev.run.green && blue == currNode.prev.run.blue) {
+                    currNode.prev.run.length += 2;
+                    runs.remove(currNode.next);
+                    runs.remove(currNode);
+                } else {
+                    currNode.run.red = red;
+                    currNode.run.green = green;
+                    currNode.run.blue = blue;
+                }
             } else {
-                currNode.run.red = red;
-                currNode.run.green = green;
-                currNode.run.blue = blue;
+                if (currNode != runs.header.next && red == currNode.prev.run.red && green == currNode.prev.run.green && blue == currNode.prev.run.blue) {
+                    currNode.prev.run.length++;
+                    runs.remove(currNode);
+                } else if (currNode != runs.trailer.prev && red == currNode.next.run.red && green == currNode.next.run.green && blue == currNode.next.run.blue) {
+                    currNode.next.run.length++;
+                    runs.remove(currNode);
+                } else {
+                    currNode.run.red = red;
+                    currNode.run.green = green;
+                    currNode.run.blue = blue;
+                }
             }
+
         } else {
             if (left == 0) {
                 if (currNode != runs.trailer.prev && currNode != runs.header.next && red == currNode.prev.run.red && green == currNode.prev.run.green && blue == currNode.prev.run.blue) {
@@ -494,9 +506,6 @@ public class RunLengthEncoding implements Iterable {
         image2.setPixel(2, 0, (short) 2, (short) 2, (short) 2);
         doTest(rle2.toPixImage().equals(image2),
                 "Setting RLE2[2][0] = 2 fails.");
-
-        System.out.println("ceshi: " + new RunLengthEncoding(image2));
-
 
         PixImage image3 = array2PixImage(new int[][] { { 0, 5 },
                 { 1, 6 },
