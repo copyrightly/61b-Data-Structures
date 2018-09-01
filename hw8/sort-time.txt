@@ -1,0 +1,31 @@
+Part III
+
+Mergesort time, 10 Integers:  0 msec.
+Quicksort time, 10 Integers:  0 msec.
+
+Mergesort time, 100 Integers:  1 msec.
+Quicksort time, 100 Integers:  1 msec.
+
+Mergesort time, 1000 Integers:  5 msec.
+Quicksort time, 1000 Integers:  3 msec.
+
+Mergesort time, 10000 Integers:  26 msec.
+Quicksort time, 10000 Integers:  20 msec.
+
+Mergesort time, 100000 Integers:  228 msec.
+Quicksort time, 100000 Integers:  172 msec.
+
+Mergesort time, 1000000 Integers:  2504 msec.
+Quicksort time, 1000000 Integers:  1031 msec.
+
+Mergesort time, 10000000 Integers:  54527 msec.
+Quicksort time, 10000000 Integers:  26097 msec.
+
+———————————————
+Part IV 
+
+Is your mergesort always stable?  Explain why or why not.
+  No, because when you merge two items and enqueue it back to the queue, the order of items with the same key might have changed. An example: 3’ 4 5 3’’ 2, after mergesort: 2 3’’ 3’ 4 5
+
+Is your quicksort always stable?  Explain why or why not.
+  Yes, because the order of items with the same key is preserved in qEqual.
